@@ -19,9 +19,13 @@ public class Input {
 		
 	private final String FIRST_PROMPT = "-> ";
 	private final String SECOND_PROMPT = "> ";
+	
 	private final String FAREWELL_MESSAGE = "Farewell, my dear friend :)";
+	
 	private final String COMMENTCHAR = ";";
 	private final String QUIT = "quit";
+	private final String OPEN_PAREN = "(";
+	private final String DEFINE = "define";
 	
 	
 	public Scanner scanner = new Scanner(System.in);
@@ -75,6 +79,11 @@ public class Input {
 	
 	public boolean isQuit() {
 		return this.tokens.size() == 1 && this.tokens.getTokenString(0).equals(QUIT);
+	}
+	
+	public boolean isDefine() {
+		return this.tokens.getTokenString(0).equals(OPEN_PAREN)
+				&& this.tokens.getTokenString(1).equals(DEFINE);
 	}
 	
 	public void showFarwellMessage() {

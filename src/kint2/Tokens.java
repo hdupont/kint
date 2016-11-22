@@ -28,6 +28,9 @@ public class Tokens {
 			else {
 				int firstBlank = input.indexOf(" ") != -1 ? input.indexOf(" ") : input.length();
 				String tokenString = input.substring(0, firstBlank);
+				if (tokenString.length() > 1 && tokenString.charAt(tokenString.length() - 1) == ')') {
+					tokenString = tokenString.substring(0, tokenString.length() - 1);
+				}
 				addToken(tokenString);
 				input.delete(0, tokenString.length());
 			}		
@@ -58,6 +61,6 @@ public class Tokens {
 	}
 	
 	public String toString() {
-		return "Tokens: " + this.tokens;
+		return "Tokens[" + this.size() + "]: " + this.tokens;
 	}
 }

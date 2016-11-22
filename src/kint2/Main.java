@@ -12,6 +12,9 @@ public class Main {
 			if (input.isQuit()) {
 				quittingtime = true;
 			}
+			else if (input.isDefine()) {
+				System.out.println("DEFINE time");
+			}
 		}
 		input.showFarwellMessage();
 	}
