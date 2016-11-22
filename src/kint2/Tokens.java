@@ -3,14 +3,16 @@ package kint2;
 import java.util.ArrayList;
 
 public class Tokens {
-	private ArrayList<String> tokens = new ArrayList<String>();
+	private ArrayList<Token> tokens = new ArrayList<Token>();
+	
 	private final char   TABCODE = '\t';
 	
-	//  (   er   (  fd   dfsd )  fsdf   )    (  drff df    )  
+	//  (   er   (  fd   dfsd )  fsdf   )    (  drff df  h  )  
 	public void tokenize(StringBuilder input) {
 		// On supprime les blancs en début et en fin d'input.
 		trim(input);
 		
+		// On tokenize.
 		int i = 0;
 		while(input.length() > 0) {
 			char c = input.charAt(i); 
@@ -20,18 +22,22 @@ public class Tokens {
 				continue;
 			}
 			else if (c == '(' || c == ')' ) {
-				tokens.add("" + c);
+				addToken("" + c);
 				input.deleteCharAt(i);
 			}
 			else {
 				int firstBlank = input.indexOf(" ") != -1 ? input.indexOf(" ") : input.length();
-				String token = input.substring(0, firstBlank);
-				tokens.add(token);
-				input.delete(0, token.length());
+				String tokenString = input.substring(0, firstBlank);
+				addToken(tokenString);
+				input.delete(0, tokenString.length());
 			}		
 			
 			System.out.println(this.toString());
 		}
+	}
+	
+	private void addToken(String str) {
+		this.tokens.add(new Token(str));
 	}
 	
 	private void trim(StringBuilder input) {
@@ -39,15 +45,19 @@ public class Tokens {
 		input = new StringBuilder(str.trim());
 	}
 	
-	private String join() {
-		String join = "";
-		for (String token : tokens) {
-			join += "<" + token + "> ";
+	public int size() {
+		return this.tokens.size();
+	}
+	
+	public String getTokenString(int i) {
+		if (i >= this.size()) {
+			throw new IndexOutOfBoundsException("Tokens");
 		}
-		return join;
+
+		return this.tokens.get(i).getString();
 	}
 	
 	public String toString() {
-		return join();
+		return "Tokens: " + this.tokens;
 	}
 }

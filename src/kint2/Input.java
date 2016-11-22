@@ -15,12 +15,13 @@ import java.util.Scanner;
 // <name>       ::= "une séquence de caractère"
 public class Input {
 	private StringBuilder input = new StringBuilder("");
-	
+	private Tokens tokens;
 		
 	private final String FIRST_PROMPT = "-> ";
 	private final String SECOND_PROMPT = "> ";
 	private final String FAREWELL_MESSAGE = "Farewell, my dear friend :)";
 	private final String COMMENTCHAR = ";";
+	private final String QUIT = "quit";
 	
 	
 	public Scanner scanner = new Scanner(System.in);
@@ -46,8 +47,8 @@ public class Input {
 		DEGUB();
 		
 		// Une fois les parenthèses balancées, on tokenize.
-		Tokens tokens = new Tokens();
-		tokens.tokenize(input);
+		this.tokens = new Tokens();
+		this.tokens.tokenize(input);
 	}
 		
 	private void removeComments() {
@@ -72,11 +73,15 @@ public class Input {
 		return parentcnt == 0;
 	}
 	
+	public boolean isQuit() {
+		return this.tokens.size() == 1 && this.tokens.getTokenString(0).equals(QUIT);
+	}
+	
 	public void showFarwellMessage() {
 		System.out.print(FAREWELL_MESSAGE);
 	}
 	
 	public String toString() {
-		return this.input.toString();
+		return "Input:" + this.input.toString();
 	}
 }

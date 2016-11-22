@@ -9,19 +9,10 @@ public class Main {
 		boolean quittingtime = false;
 		while (! quittingtime) {
 			input.read();
-//			if (input.matches("quit")) {
-//				quittingtime = true;
-//			}
+			if (input.isQuit()) {
+				quittingtime = true;
+			}
 		}
 		input.showFarwellMessage();
-	}
-	
-	public static void testStringBuilderReplace() {
-		StringBuilder sb = new StringBuilder("abcdef");
-		System.out.println(sb);
-		int i = sb.indexOf("c");
-		System.out.println(i);
-		sb.replace(i, i+1, "x");
-		System.out.println(sb);
 	}
 }
