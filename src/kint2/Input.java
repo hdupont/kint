@@ -1,7 +1,6 @@
 package kint2;
 
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 // <fundef>     ::= "(" "define" <name> <arglist> <expression> ")"
@@ -16,13 +15,13 @@ import java.util.Scanner;
 // <name>       ::= "une séquence de caractère"
 public class Input {
 	private StringBuilder input = new StringBuilder("");
-	private ArrayList<String> tokens = new ArrayList<String>();
+	
 		
 	private final String FIRST_PROMPT = "-> ";
 	private final String SECOND_PROMPT = "> ";
 	private final String FAREWELL_MESSAGE = "Farewell, my dear friend :)";
 	private final String COMMENTCHAR = ";";
-	private final char   TABCODE = '\t';
+	
 	
 	public Scanner scanner = new Scanner(System.in);
 
@@ -47,41 +46,8 @@ public class Input {
 		DEGUB();
 		
 		// Une fois les parenthèses balancées, on tokenize.
-		tokenize();
-	}
-	
-	
-	//  (   er   (  fd   dfsd )  fsdf   )    (  drff df    )  
-	private void tokenize() {
-		// On supprime les blancs en début et en fin d'input.
-		trim();
-		
-		int i = 0;
-		while(input.length() > 0) {
-			char c = input.charAt(i); 
-			
-			if  (c == ' ' || c == TABCODE) {
-				input.deleteCharAt(i);
-				continue;
-			}
-			else if (c == '(' || c == ')' ) {
-				tokens.add("" + c);
-				input.deleteCharAt(i);
-			}
-			else {
-				int firstBlank = input.indexOf(" ") != -1 ? input.indexOf(" ") : input.length();
-				String token = input.substring(0, firstBlank);
-				tokens.add(token);
-				input.delete(0, token.length());
-			}		
-			
-			System.out.println("tokens<" + tokens + ">");
-		}
-	}
-	
-	private void trim() {
-		String str = input.toString();
-		input = new StringBuilder(str.trim());
+		Tokens tokens = new Tokens();
+		tokens.tokenize(input);
 	}
 		
 	private void removeComments() {
