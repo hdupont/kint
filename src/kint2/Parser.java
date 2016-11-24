@@ -1,7 +1,5 @@
 package kint2;
 
-import java.text.ParseException;
-
 import kint2.exp.ApExp;
 import kint2.exp.Exp;
 import kint2.exp.ExpList;
@@ -37,7 +35,6 @@ public class Parser {
 			String name = parseName(tokens);
 			ExpList expList = parseEL(tokens);
 			exp = new ApExp(name, expList);
-			System.out.println(exp);
 		}
 		else if (isNumber(tokens)) {
 			exp = new ValExp(parseVal(tokens)); // ValExp
@@ -46,6 +43,7 @@ public class Parser {
 			String name = parseName(tokens);
 			exp = new VarExp(name);
 		}
+		System.out.println(exp);
 		return exp;
 	}
 	
@@ -60,16 +58,18 @@ public class Parser {
 		return tokens.readNextToken().getString();
 	}
 	
+	// (set (y 1 2) x (z 1 2 3) )
 	// (set x (y 1 2) (z 1 2 3))
 	private static ExpList parseEL(Tokens tokens) {
-		System.out.println("parseEL - " + tokens);
-		ExpList expList = new ExpList();
-		while (! tokens.match(new String[]{")"})) {
+		if (tokens.match(new String[]{")"})) {
 			tokens.readNextToken();
-			Exp exp = parseExp(tokens);
-			expList.addExp(exp);
+			return null;
 		}
-		return expList;
+		else {
+			Exp exp = parseExp(tokens);
+			ExpList el = parseEL(tokens);
+			return new ExpList(exp, el);
+		}
 	}
 	
 	private static boolean isNumber(Tokens tokens) {

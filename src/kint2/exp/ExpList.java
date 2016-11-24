@@ -1,17 +1,34 @@
 package kint2.exp;
 
-import java.util.ArrayList;
-
 public class ExpList {
 
-	private ArrayList<Exp> exps = new ArrayList<Exp>();
-	
-	public void addExp(Exp e) {
-		exps.add(e);
+	private Exp exp;
+	private ExpList next;
+
+	public ExpList(Exp exp, ExpList expList) {
+		this.exp = exp;
+		this.next = expList;
 	}
 	
+	@Override
 	public String toString() {
-		return "ExpList[" + this.exps.size() + "]: " + this.exps;
+		String str = "ExpList: ";
+		ExpList p = this; 
+		while (p != null) {
+			str += "" + p.exp + (p.next != null ? ", " : "");
+			p = p.next;
+		}
+		return str;
 	}
 
+	public static void main(String[] args) {
+		ExpList l;
+		
+		l = new ExpList(new ValExp(3), null);
+		l = new ExpList(new ValExp(12), l);
+		l = new ExpList(new ValExp(4), l);
+		
+		System.out.println(l);
+	}
+	
 }
