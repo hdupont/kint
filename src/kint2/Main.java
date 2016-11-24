@@ -1,21 +1,34 @@
 package kint2;
 
+import kint2.exp.Exp;
+import kint2.token.Tokens;
+
 public class Main {
-	private static Input input = new Input();
-	
+		
 	public static void main(String[] args) {
-		//testStringBuilderReplace();
+		IO io = new IO();
+		Tokens tokens = new Tokens();
+		Env emptyEnv = new Env();
 		
 		boolean quittingtime = false;
 		while (! quittingtime) {
-			input.read();
-			if (input.isQuit()) {
+
+			// On génère les tokens à partir de l'input.
+			StringBuilder balancedString = io.read();
+			tokens.tokenize(balancedString);
+			
+			// On fait ce qu'il faut en fonction des tokens.
+			if (tokens.match(new String[]{"quit"})) {
 				quittingtime = true;
 			}
-			else if (input.isDefine()) {
-				System.out.println("DEFINE time");
+			else if (tokens.match(new String[]{"(", "define"})) {
+				System.out.println("main - DEFINE");
+			}
+			else {
+				Exp exp = Parser.parseExp(tokens);
+				io.prValue(exp.evaluate(emptyEnv));
 			}
 		}
-		input.showFarwellMessage();
+		io.showFarwellMessage();
 	}
 }

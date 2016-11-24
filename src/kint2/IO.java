@@ -3,17 +3,10 @@ package kint2;
 
 import java.util.Scanner;
 
-// <fundef>     ::= "(" "define" <name> <arglist> <expression> ")"
-// <arglist>    ::= "(" name* ")"
-// <expression> ::= <value>
-//                | <name>
-//                | "(" "if" <expression> <expression> <expression> ")" 
-//                | "(" "while" <expression> <expression> ")"	
-//                | "(" "set" <name> <expression> ")"
-//                | "begin" <expression>+ ")"
-//                | "optr" <expression>* ")"
-// <name>       ::= "une séquence de caractère"
-public class Input {
+import kint2.token.Tokens;
+
+
+public class IO {
 	private StringBuilder input = new StringBuilder("");
 	private Tokens tokens;
 		
@@ -23,18 +16,14 @@ public class Input {
 	private final String FAREWELL_MESSAGE = "Farewell, my dear friend :)";
 	
 	private final String COMMENTCHAR = ";";
-	private final String QUIT = "quit";
+	
 	private final String OPEN_PAREN = "(";
 	private final String DEFINE = "define";
 	
 	
 	public Scanner scanner = new Scanner(System.in);
-
-	public void DEGUB() {
-		System.out.println("DEBUG<" + this + ">");
-	}
 	
-	public void read() {
+	public StringBuilder read() {
 		// Tant que les parenthèses ne sont pas bien balancées.
 		//     On lit une ligne.
 		// 	   On en supprime les commentaires.
@@ -48,11 +37,7 @@ public class Input {
 			prompt = SECOND_PROMPT;
 		}
 		
-		DEGUB();
-		
-		// Une fois les parenthèses balancées, on tokenize.
-		this.tokens = new Tokens();
-		this.tokens.tokenize(input);
+		return input;
 	}
 		
 	private void removeComments() {
@@ -77,10 +62,6 @@ public class Input {
 		return parentcnt == 0;
 	}
 	
-	public boolean isQuit() {
-		return this.tokens.size() == 1 && this.tokens.getTokenString(0).equals(QUIT);
-	}
-	
 	public boolean isDefine() {
 		return this.tokens.getTokenString(0).equals(OPEN_PAREN)
 				&& this.tokens.getTokenString(1).equals(DEFINE);
@@ -92,5 +73,9 @@ public class Input {
 	
 	public String toString() {
 		return "Input:" + this.input.toString();
+	}
+	
+	public void prValue(int number) {
+		System.out.println(number);
 	}
 }

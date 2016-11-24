@@ -1,4 +1,4 @@
-package kint2;
+package kint2.token;
 
 public class Token {
 	private String string;
