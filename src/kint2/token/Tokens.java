@@ -6,7 +6,7 @@ public class Tokens {
 	private ArrayList<Token> tokens = new ArrayList<Token>();
 	
 	// Utilisé par tokenize construire le token en cours (qui n'est pas une parenthèse)
-	private boolean inStringToken = false;
+	private boolean isInStringToken = false;
 	private String currentStringToken = "";
 	
 	private final char   TABCODE = '\t';
@@ -36,7 +36,7 @@ public class Tokens {
 				input.deleteCharAt(i);
 			}
 			else {
-				inStringToken = true;
+				isInStringToken = true;
 				currentStringToken += c;
 				input.deleteCharAt(i);
 			}		
@@ -52,7 +52,7 @@ public class Tokens {
 		if (currentStringToken != "") {
 			addToken(currentStringToken);
 			currentStringToken = "";
-			inStringToken = false;
+			isInStringToken = false;
 		}
 	}
 	
