@@ -1,4 +1,4 @@
-package test;
+package kint2.token;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import kint2.token.Tokens;
 
-public class TestTokens {
+public class TokensTest {
 	
 	private String tokenizeToString(String str) {
 		Tokens tokens = new Tokens();
