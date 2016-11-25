@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Tokens {
 	private ArrayList<Token> tokens = new ArrayList<Token>();
 	
+	// Utilisé par tokenize construire le token en cours (qui n'est pas une parenthèse)
+	private boolean inStringToken = false;
+	private String currentStringToken = "";
+	
 	private final char   TABCODE = '\t';
 	private final char   OPENING_PAREN = '(';
 	private final char   CLOSING_PAREN = ')';
@@ -17,25 +21,38 @@ public class Tokens {
 		// On tokenize.
 		int i = 0;
 		while(input.length() > 0) {
-			char c = input.charAt(i); 
+			char c = input.charAt(i);
 			
 			if  (c == ' ' || c == TABCODE) {
+				addCurrentStringToken();
+				
 				input.deleteCharAt(i);
 				continue;
 			}
 			else if (c == OPENING_PAREN || c == CLOSING_PAREN ) {
+				addCurrentStringToken();
+				
 				addToken("" + c);
 				input.deleteCharAt(i);
 			}
 			else {
-				int firstBlank = input.indexOf(" ") != -1 ? input.indexOf(" ") : input.length();
-				String tokenString = input.substring(0, firstBlank);
-				if (tokenString.length() > 1 && tokenString.charAt(tokenString.length() - 1) == CLOSING_PAREN) {
-					tokenString = tokenString.substring(0, tokenString.length() - 1);
-				}
-				addToken(tokenString);
-				input.delete(0, tokenString.length());
+				inStringToken = true;
+				currentStringToken += c;
+				input.deleteCharAt(i);
 			}		
+		}
+	}
+	
+	public void tokenize(String string) {
+		StringBuilder strb = new StringBuilder(string);
+		this.tokenize(strb);
+	}
+
+	private void addCurrentStringToken() {
+		if (currentStringToken != "") {
+			addToken(currentStringToken);
+			currentStringToken = "";
+			inStringToken = false;
 		}
 	}
 	
@@ -82,5 +99,11 @@ public class Tokens {
 	
 	public String toString() {
 		return "Tokens[" + this.size() + "]: " + this.tokens;
+	}
+	
+	public static void main(String[] args) {
+		Tokens tokens = new Tokens();
+		tokens.tokenize("((3))");
+		System.out.println(tokens.toString());
 	}
 }

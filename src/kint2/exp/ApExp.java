@@ -21,6 +21,6 @@ public class ApExp implements Exp {
 	}
 	
 	public String toString() {
-		return "ApExp<operator= " + this.operator + ", args=" + this.args + ">";
+		return "ApExp<operator=" + this.operator + ", args=" + this.args + ">";
 	}
 }
